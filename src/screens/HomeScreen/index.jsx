@@ -31,6 +31,16 @@ const HomeScreen = () => {
   const [checkbox3, setCheckbox3] = useState(status);
 
   const navigation = useNavigation();
+
+  const handleOpenCalendar = () => {
+    setOpenCalendar(true);
+    setModalVisible(true);
+  };
+
+  const handleEndCalendar = () => {
+    setEndCalendar(true);
+    setModalVisible(true);
+  };
   return (
     <View style={styles.container}>
       <Text
@@ -61,26 +71,27 @@ const HomeScreen = () => {
         <View style={styles.formDate}>
           <Text style={{ color: "#59a6a6", fontSize: 16 }}>From</Text>
           <TextInput
-            onFocus={() => setOpenCalendar(true)}
+            // onFocus={() => setOpenCalendar(true)}
             // onPressIn={() => setOpenCalendar(true)}
-            onPressIn={() => setModalVisible(true)}
-            onBlur={() => setOpenCalendar(false)}
+            onPressIn={handleOpenCalendar}
+            // onBlur={() => setOpenCalendar(false)}
             style={styles.input}
             placeholder="From"
-            editable
-            defaultValue={startingDate}
+            readOnly
+            value={startingDate}
           />
         </View>
         <View style={styles.formDate}>
           <Text style={{ color: "#59a6a6", fontSize: 16 }}>To</Text>
           <TextInput
-            onFocus={() => setEndCalendar(true)}
-            onPressIn={() => setEndCalendar(true)}
-            onBlur={() => setEndCalendar(false)}
+            // onFocus={() => setEndCalendar(true)}
+            // onPressIn={() => setEndCalendar(true)}
+            // onBlur={() => setEndCalendar(false)}
+            onPressIn={handleEndCalendar}
             style={styles.input}
             placeholder="To"
-            editable
-            defaultValue={endingDate}
+            readOnly
+            value={endingDate}
           />
         </View>
         {openCalendar && (
@@ -99,7 +110,7 @@ const HomeScreen = () => {
                   onChange={(e) => {
                     setStartingDate(e);
                     setOpenCalendar(false);
-                    setModalVisible(!modalVisible)
+                    setModalVisible(!modalVisible);
                   }}
                 />
               </View>
@@ -107,12 +118,27 @@ const HomeScreen = () => {
           </Modal>
         )}
         {endCalendar && (
-          <DatePicker
-            onChange={(e) => {
-              setEndingDate(e);
-              setEndCalendar(false);
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
             }}
-          />
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <DatePicker
+                  onChange={(e) => {
+                    setEndingDate(e);
+                    setEndCalendar(false);
+                    setModalVisible(!modalVisible);
+                  }}
+                />
+              </View>
+            </View>
+          </Modal>
         )}
 
         <Text style={{ color: "#59a6a6", fontSize: 20, fontWeight: "bold" }}>
@@ -233,7 +259,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   modalView: {
-    width: "80%",
+    width: "85%",
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,

@@ -1,10 +1,10 @@
 import React from "react";
-import { Text, SafeAreaView, StyleSheet } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 const DetailsScreen = () => {
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Text>DetailsScreen</Text>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f1f1f1",
     alignItems: "center",
     width: "100%",
+    marginTop: 40,
   },
 });
 
