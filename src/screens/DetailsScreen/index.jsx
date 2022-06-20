@@ -7,59 +7,60 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { SearchBar } from "@rneui/themed";
 import { mealsAndDates } from "../../utils/helpers/mealsAndDates";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { taskData } from "../../../assets/utils/taskData";
+import SubDetailsCard from "../../components/SubDetailsCard/SubDetailsCard";
 
 const DetailsScreen = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [search, setSearch] = useState("");
+
   const [users, setUsers] = useState(taskData);
-  console.log("users items", users);
 
   const userStatus = useSelector((state) => state.user);
-  const { active, superActive, bored, dateRange } = userStatus;
+  const { active, superActive, bored, rangeOfDates } = userStatus;
 
   const navigation = useNavigation();
 
-  const updatedUserData = mealsAndDates(dateRange);
+  const updatedData = mealsAndDates(rangeOfDates);
 
   useEffect(() => {
-    if (searchTerm !== "") {
+    if (search !== "" || search !== undefined) {
       const filteredUser =
-        typeof updatedUserData[0] !== "undefined" &&
-        updatedUserData.filter((user) =>
+        typeof updatedData[0] !== "undefined" &&
+        updatedData.filter((user) =>
           Object.values(user.profile.name)
             .join("")
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase())
+            .toUpperCase()
+            .includes(search.toUpperCase())
         );
       setUsers(filteredUser);
     } else {
-      setUsers(updatedUserData);
+      setUsers(updatedData);
     }
-  }, [searchTerm]);
+  }, [search]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
+      <View style={styles.editView}>
         <TouchableOpacity
           style={styles.filter}
           onPress={() => navigation.navigate("HomeScreen")}
         >
-          <Feather name="edit" size={24} color="black" />
-          <Text>Edit</Text>
+          <Text>Edit Filter</Text>
+          <Ionicons name="filter-sharp" size={24} color="black" />
         </TouchableOpacity>
       </View>
       <View style={styles.searchContainer}>
         <SearchBar
           searchIcon={{ size: 24 }}
-          onChangeText={(text) => setSearchTerm(text)}
-          onClear={(text) => setSearchTerm("")}
-          placeholder="Type Here..."
-          value={searchTerm}
+          onChangeText={(text) => setSearch(text)}
+          onClear={(text) => setSearch("")}
+          placeholder="Search"
+          value={search}
           inputStyle={{ backgroundColor: "white" }}
           containerStyle={{
             backgroundColor: "white",
@@ -67,21 +68,21 @@ const DetailsScreen = () => {
             borderRadius: 5,
           }}
           inputContainerStyle={{ backgroundColor: "white" }}
-          placeholderTextColor={"#g5g5g5"}
+          placeholderTextColor={"gray"}
         />
       </View>
 
-      {/* <ScrollView style={{ marginTop: 10 }}>
+      <ScrollView style={{ marginTop: 10 }}>
         {users.map((user, index) => {
           return bored !== 0 && bored > user.mealTaken ? (
-            <UsersCard key={index} user={user} />
+            <SubDetailsCard key={index} user={user} />
           ) : active !== 0 && active > user.mealTaken && user.mealTaken >= 5 ? (
-            <UsersCard key={index} user={user} />
+            <SubDetailsCard key={index} user={user} />
           ) : superActive !== 0 && user.mealTaken >= superActive ? (
-            <UsersCard key={index} user={user} />
+            <SubDetailsCard key={index} user={user} />
           ) : null;
         })}
-      </ScrollView> */}
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -89,7 +90,21 @@ const DetailsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 40,
+    marginTop: 30,
+  },
+  editView: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    marginBottom: 10,
+  },
+  filter: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 10,
+  },
+  searchContainer: {
     marginTop: 10,
+    marginBottom: 10,
   },
 });
 

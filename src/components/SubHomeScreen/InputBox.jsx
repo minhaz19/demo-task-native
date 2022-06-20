@@ -77,7 +77,7 @@ const InputBox = () => {
           style={styles.input}
           placeholder="From"
           readOnly
-          defaultValue={startDate}
+          defaultValue={startingDate}
         />
       </View>
       <View style={styles.formDate}>
@@ -88,7 +88,7 @@ const InputBox = () => {
           placeholder="To"
           readOnly
           //   editable={false}
-          defaultValue={endDate}
+          defaultValue={endingDate}
         />
       </View>
       {openCalendar && (
