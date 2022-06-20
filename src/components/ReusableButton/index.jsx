@@ -4,14 +4,17 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 const ReusableButton = ({ title, onPress }) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={onPress} style={styles.button}>
+      <TouchableOpacity
+        onPress={onPress}
+        style={styles.button}
+      >
         <Text style={styles.title}>{title}</Text>
       </TouchableOpacity>
     </View>
   );
 };
 const styles = StyleSheet.create({
-  container:{
+  container: {
     alignItems: "center",
   },
   button: {
