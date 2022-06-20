@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
 
-const SubDetailsCard = ({ user, mealTaken }) => {
+const SubDetailsCard = ({ user }) => {
   return (
     <View style={styles.container}>
     <View>
@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
     container: {
       backgroundColor: "white",
       margin: 20,
-      // width: 150,
       position: "relative",
     },
     batchContainer: {
@@ -79,7 +78,7 @@ const styles = StyleSheet.create({
     batchText: {
       textAlign: "center",
       paddingVertical: 5,
-      color: "red",
+      color: "white",
     },
     image: {
       width: "100%",
